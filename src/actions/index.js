@@ -1,8 +1,9 @@
 import axios from "axios";
 
-export const signIn = () => {
+export const signIn = (id) => {
   return {
     type: "SIGN_IN",
+    id,
   };
 };
 
@@ -34,9 +35,10 @@ export const fetchStatus = (callback) => async (dispatch, getState) => {
   //3. Update the status of auth and store it int he store'
   dispatch({ type: "FETCH_GSTATUS", payload: auth.isSignedIn.get() });
 
-  //4. attach a listener to whenever the isSignedIn property changes.
-  //5. Update the store and the component.
+  // 4. attach a listener to whenever the isSignedIn property changes.
+  // 5. Update the store and the component.
   auth.isSignedIn.listen(() => {
+    console.log("the listened function was called.");
     callback(auth.isSignedIn.get());
     dispatch({ type: "FETCH_GSTATUS", payload: auth.isSignedIn.get() });
   });
@@ -47,13 +49,12 @@ export const getGoogleAuth = () => async (dispatch) => {
     window.gapi.load("client:auth2", resolve);
   });
 
-  window.gapi.client.init({
+  await window.gapi.client.init({
     clientId:
       "966761145318-lchet6c8rli1o5jk7k82nrug9fpqe8og.apps.googleusercontent.com",
     scope: "email",
   });
 
   const auth = window.gapi.auth2.getAuthInstance();
-  console.log(auth);
   dispatch({ type: "FETCH_GAUTH", payload: auth });
 };
