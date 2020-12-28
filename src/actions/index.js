@@ -1,15 +1,14 @@
 import axios from "axios";
 
-export const signIn = (signInId) => {
+export const signIn = () => {
   return {
-    isSignedIn: true,
-    id: signInId,
+    type: "SIGN_IN",
   };
 };
 
 export const signOut = () => {
   return {
-    isSignedIn: false,
+    type: "SIGN_OUT",
   };
 };
 

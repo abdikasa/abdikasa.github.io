@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchStatus } from "../actions";
+import { fetchStatus, signIn, signOut } from "../actions";
 
 class GoogleAuth extends React.Component {
   componentDidMount() {
@@ -8,12 +8,47 @@ class GoogleAuth extends React.Component {
   }
 
   onAuthChange = (isSignedIn) => {
-    console.log(isSignedIn);
+    if (isSignedIn) {
+      //later: get user id if signed in already.
+      this.props.signIn();
+    } else {
+      this.props.signOut();
+    }
+  };
+
+  signUserIn = () => {
+    this.props.current.signIn();
+  };
+
+  signUserOut = () => {
+    this.props.current.signOut();
+  };
+
+  renderAuthButtons = () => {
+    if (this.props.isSignedIn === true) {
+      return (
+        <button className="negative ui button" onClick={this.signUserOut}>
+          Sign Out
+        </button>
+      );
+    } else if (this.props.isSignedIn === false) {
+      return (
+        <button onClick={this.signUserIn} className="positive ui button">
+          Sign In
+        </button>
+      );
+    }
+    return null;
   };
 
   render() {
-    return <div>Google Auth</div>;
+    return <React.Fragment>{this.renderAuthButtons()}</React.Fragment>;
   }
 }
 
-export default connect(null, { fetchStatus })(GoogleAuth);
+const mapStateToProps = (state) => {
+  return { current: state.auth, isSignedIn: state.isSignedIn };
+};
+export default connect(mapStateToProps, { fetchStatus, signIn, signOut })(
+  GoogleAuth
+);
