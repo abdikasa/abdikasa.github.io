@@ -14,11 +14,18 @@ export const signOut = () => {
 };
 
 export const searchMovies = (q) => async (dispatch) => {
+  q = q.toLowerCase().trim();
   const response = await axios.get(
     `http://www.omdbapi.com/?apikey=b3c713a5&s=${q}&type=movie`
   );
-  console.log("Response", response);
-  dispatch({ type: "SEARCH_MOVIE", payload: response.data });
+
+  if (response.data.Search) {
+    console.log("we have search results with that query");
+    dispatch({ type: "SEARCH_MOVIE", payload: response.data });
+  } else {
+    console.log("we dont have search results with that query");
+    dispatch({ type: "SEARCH_MOVIE_U", payload: response.data.Error });
+  }
 };
 
 export const fetchStatus = (callback) => async (dispatch, getState) => {
