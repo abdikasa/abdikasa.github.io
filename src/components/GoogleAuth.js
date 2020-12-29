@@ -1,4 +1,5 @@
 import React from "react";
+import "../css/GoogleAuth.css";
 import { connect } from "react-redux";
 import { fetchStatus, signIn, signOut } from "../actions";
 
@@ -27,13 +28,19 @@ class GoogleAuth extends React.Component {
   renderAuthButtons = () => {
     if (this.props.isSignedIn === true) {
       return (
-        <button className="negative ui button" onClick={this.signUserOut}>
+        <button
+          className="negative ui button so-button"
+          onClick={this.signUserOut}
+        >
           Sign Out
         </button>
       );
     } else if (this.props.isSignedIn === false) {
       return (
-        <button onClick={this.signUserIn} className="positive ui button">
+        <button
+          onClick={this.signUserIn}
+          className="positive ui button so-button"
+        >
           Sign In
         </button>
       );

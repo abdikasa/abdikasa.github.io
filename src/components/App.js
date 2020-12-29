@@ -7,8 +7,8 @@ import Header from "./Header";
 const App = () => {
   return (
     <div className="ui container">
-      <Header></Header>
       <Router history={history}>
+        <Header></Header>
         <Route path="/movies" component={MovieList} exact></Route>
       </Router>
     </div>
