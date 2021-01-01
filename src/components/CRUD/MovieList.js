@@ -33,6 +33,17 @@ class MovieList extends Component {
 
   renderMovies = () => {
     const { movies } = this.props;
+    const { signInID } = this.props;
+    const hideButton =
+      signInID === null ? (
+        ""
+      ) : (
+        <div className="ui dimmer ">
+          <div className="content">
+            <MovieButton></MovieButton>
+          </div>
+        </div>
+      );
     console.log(movies);
     if (movies.error) {
       if (movies.error === "Incorrect IMDb ID." && this.state.term === "") {
@@ -56,23 +67,17 @@ class MovieList extends Component {
                   });
                 }}
               >
-                <div className="ui dimmer">
-                  <div className="content">
-                    <MovieButton></MovieButton>
-                  </div>
-                </div>
                 {movie.Poster !== "N/A" ? (
-                  <img src={movie.Poster}></img>
+                  <img src={movie.Poster} className="poster-img"></img>
                 ) : (
                   <img
                     src="http://placehold.it/300x200"
-                    srcSet="
-	    http://placehold.it/300x200 300w"
-                    sizes="
-	    100vw"
+                    srcSet="http://placehold.it/300x200 300w"
+                    sizes="100vw"
                     alt="Placeholder"
                   />
                 )}
+                {hideButton}
               </div>
               <div className="content">
                 <a className="header">{movie.Title}</a>
@@ -142,7 +147,8 @@ class MovieList extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return { movies: state.queryResults };
+  console.log(state);
+  return { movies: state.queryResults, signInID: state.signInId.id };
 };
 
 export default connect(mapStateToProps, { searchMovies })(MovieList);
