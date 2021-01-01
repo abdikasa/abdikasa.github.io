@@ -4,8 +4,15 @@ import "../../css/MovieList.css";
 import Search from "../Search";
 import { connect } from "react-redux";
 import { searchMovies } from "../../actions";
+import MovieButton from "../MovieButton";
 
 class MovieList extends Component {
+  constructor(props) {
+    super(props);
+    this.label = React.createRef();
+    this.hoverImg = React.createRef();
+  }
+
   componentDidMount() {
     this.timer = null;
   }
@@ -21,10 +28,10 @@ class MovieList extends Component {
         return;
       }
       this.props.searchMovies(e.target.value);
-    }, 600);
+    }, 400);
   };
 
-  renderErrorMessage = () => {
+  renderMovies = () => {
     const { movies } = this.props;
     console.log(movies);
     if (movies.error) {
@@ -35,38 +42,102 @@ class MovieList extends Component {
     }
     return Object.values(movies).map((movie) => {
       return (
-        <React.Fragment key={movie.imdbID}>
-          <h3>{movie.Title}</h3>
-        </React.Fragment>
+        <div
+          className="eight wide mobile four wide tablet three wide computer column stretched"
+          key={movie.imdbID}
+        >
+          <div className="ui special cards">
+            <div className="eq-card ui card fluid">
+              <div
+                className="blurring dimmable image"
+                ref={() => {
+                  window.$(".special.cards .image").dimmer({
+                    on: "hover",
+                  });
+                }}
+              >
+                <div className="ui dimmer">
+                  <div className="content">
+                    <MovieButton></MovieButton>
+                  </div>
+                </div>
+                {movie.Poster !== "N/A" ? (
+                  <img src={movie.Poster}></img>
+                ) : (
+                  <img
+                    src="http://placehold.it/300x200"
+                    srcSet="
+	    http://placehold.it/300x200 300w"
+                    sizes="
+	    100vw"
+                    alt="Placeholder"
+                  />
+                )}
+              </div>
+              <div className="content">
+                <a className="header">{movie.Title}</a>
+                <div className="meta">
+                  <span className="date">Created in {movie.Year}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       );
     });
   };
 
-  render() {
-    return (
-      <div className="ui center aligned grid typed-container">
-        <div className="sixteen wide column">
-          <span className="prefix-typed">FIND YOUR</span>
-          <TypedJs
-            strings={["<strong>MOVIE</strong>"]}
-            className="typed_string"
-          ></TypedJs>
-        </div>
+  renderResultsFound = () => {
+    const { movies } = this.props;
+    const moviesArr = Object.values(movies);
+    if (moviesArr.length === 1 && this.state.term.trim() !== "") {
+      return moviesArr[0];
+    }
+    if (this.state.term.trim() === "") return null;
+    return moviesArr.length + " results found!";
+  };
 
-        <div className="ten wide column search-container">
-          <h1>Search</h1>
-          <div className="ui large transparent fluid input">
-            <Search
-              cname="ui center aligned"
-              id="transparent-input"
-              value={this.state.term}
-              onChange={this.onChangeHandler}
-            ></Search>
+  renderContent = () => {
+    const labelClass = this.state.term.trim().length === 0 ? "show" : "hide";
+
+    return (
+      <div className="ui container">
+        <div className="ui center aligned grid">
+          <div className={`sixteen wide column ${labelClass} typed-container`}>
+            <span className="prefix-typed">FIND YOUR</span>
+            <TypedJs
+              strings={["<strong>MOVIE</strong>"]}
+              className="typed_string"
+            ></TypedJs>
           </div>
-          {this.renderErrorMessage()}
+
+          <div className={`ten wide column search-container ${labelClass}`}>
+            <h1 ref={this.label}>Search</h1>
+            <div className="ui large transparent fluid input">
+              <Search
+                cname="ui center aligned"
+                id="transparent-input"
+                value={this.state.term}
+                onChange={this.onChangeHandler}
+              ></Search>
+            </div>
+          </div>
         </div>
+        <div
+          className="ui grid"
+          style={{ textAlign: "right", marginTop: "-1.25rem" }}
+        >
+          <div className="thirteen wide column">
+            <span>{this.renderResultsFound()}</span>
+          </div>
+        </div>
+        <div className="ui centered align grid">{this.renderMovies()}</div>
       </div>
     );
+  };
+
+  render() {
+    return this.renderContent();
   }
 }
 

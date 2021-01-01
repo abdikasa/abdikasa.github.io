@@ -4,7 +4,7 @@
 }
 
 .typed-container span:first-of-type {
-    margin-right:1rem;
+    margin-right:0.7rem;
     font-weight: lighter !important;
 }
 
@@ -27,8 +27,31 @@
 
 .search-container h1 {
 letter-spacing: 2px;
-margin-bottom: 4rem;
+margin-bottom: 1rem;
 }
+
+.search-container.hide {
+    margin-top: 0;
+    display: block !important;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none !important;
+}
+
+.eq-card.ui.card {
+  flex: 1; /* Shrink and grow according to available height */
+  flex-basis: 0;
+}
+
+.ui.button.active {
+    background-color: green;
+}
+
 
 @media screen and (max-width: 800px) {
     .typed-container span {
