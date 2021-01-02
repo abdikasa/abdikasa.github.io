@@ -87,10 +87,15 @@ export const saveMovies = (movie) => async (dispatch, getState) => {
     .getBasicProfile()
     .getGivenName()}${secondhalf}`;
 
-  const myFavMovie = await axios.post("http://localhost:3001/movies", {
-    ...movie,
-    uniqueName,
-  });
+  //development: http://localhost:3001/movies
+  //production:
+  const myFavMovie = await axios.post(
+    "https://my-json-server.typicode.com/abdikasa/movieDB/db",
+    {
+      ...movie,
+      uniqueName,
+    }
+  );
   dispatch({ type: "NOM_FILM", payload: myFavMovie.data });
 };
 
