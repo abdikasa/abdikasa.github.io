@@ -17,7 +17,7 @@ export const signOut = () => {
 export const searchMovies = (q) => async (dispatch) => {
   q = q.toLowerCase().trim();
   const response = await axios.get(
-    `http://www.omdbapi.com/?apikey=b3c713a5&s=${q}&type=movie`
+    `https://www.omdbapi.com/?apikey=b3c713a5&s=${q}&type=movie`
   );
 
   if (response.data.Search) {
