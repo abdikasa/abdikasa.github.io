@@ -1,4 +1,5 @@
 import axios from "axios";
+import MovieList from "../components/CRUD/MovieList";
 
 export const signIn = (id) => {
   return {
@@ -88,7 +89,13 @@ export const saveMovies = (movie) => async (dispatch, getState) => {
 
   const myFavMovie = await axios.post("http://localhost:3001/movies", {
     ...movie,
-    uId: uniqueName,
+    uniqueName,
   });
   dispatch({ type: "NOM_FILM", payload: myFavMovie.data });
+};
+
+export const deleteMovie = (id) => async (dispatch, getState) => {
+  //take the deleted movies id and use it to delete the fil off nominated list
+
+  dispatch({ type: "DELETE_MOVIE", payload: id });
 };
