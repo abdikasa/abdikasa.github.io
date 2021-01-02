@@ -78,8 +78,8 @@ class MovieList extends Component {
                   <img src={movie.Poster} className="poster-img"></img>
                 ) : (
                   <img
-                    src="http://placehold.it/300x200"
-                    srcSet="http://placehold.it/300x200 300w"
+                    src="https://placehold.it/300x200"
+                    srcSet="https://placehold.it/300x200 300w"
                     sizes="100vw"
                     alt="Placeholder"
                   />
