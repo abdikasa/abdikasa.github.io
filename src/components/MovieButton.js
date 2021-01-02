@@ -1,13 +1,17 @@
 import React from "react";
+import { saveMovies } from "../actions";
+import { connect } from "react-redux";
 
 class MovieButton extends React.Component {
   state = { test: "Nominate" };
 
   onClickHandler = () => {
+    console.log(this.props.movie);
     if (this.state.test === "Nominated") {
       this.setState({ test: "Nominate" });
     } else {
       this.setState({ test: "Nominated" });
+      this.props.saveMovies(this.props.movie);
     }
   };
 
@@ -26,4 +30,4 @@ class MovieButton extends React.Component {
   }
 }
 
-export default MovieButton;
+export default connect(null, { saveMovies })(MovieButton);

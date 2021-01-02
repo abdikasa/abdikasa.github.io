@@ -31,19 +31,26 @@ class MovieList extends Component {
     }, 400);
   };
 
+  renderMovieHelper = (movie) => {
+    return (
+      <div className="ui dimmer ">
+        <div className="content">
+          <MovieButton movie={movie}></MovieButton>
+        </div>
+      </div>
+    );
+  };
+
   renderMovies = () => {
     const { movies } = this.props;
     const { signInID } = this.props;
     const hideButton =
-      signInID === null ? (
-        ""
-      ) : (
-        <div className="ui dimmer ">
-          <div className="content">
-            <MovieButton></MovieButton>
-          </div>
-        </div>
-      );
+      signInID === null
+        ? (data) => {
+            return "";
+          }
+        : this.renderMovieHelper;
+
     console.log(movies);
     if (movies.error) {
       if (movies.error === "Incorrect IMDb ID." && this.state.term === "") {
@@ -77,7 +84,7 @@ class MovieList extends Component {
                     alt="Placeholder"
                   />
                 )}
-                {hideButton}
+                {hideButton(movie)}
               </div>
               <div className="content">
                 <a className="header">{movie.Title}</a>

@@ -59,9 +59,36 @@ export const getGoogleAuth = () => async (dispatch) => {
   await window.gapi.client.init({
     clientId:
       "966761145318-lchet6c8rli1o5jk7k82nrug9fpqe8og.apps.googleusercontent.com",
-    scope: "email",
+    scope: "profile",
   });
 
   const auth = window.gapi.auth2.getAuthInstance();
+  console.log(auth);
   dispatch({ type: "FETCH_GAUTH", payload: auth });
+};
+
+export const saveMovies = (movie) => async (dispatch, getState) => {
+  //what do i want to happen
+  //I want user to have their movie saved in the server
+  //use part of their sign in id
+  //auth2.currentUser.get().getBasicProfile() for the names of the user.
+  //their id in the server can be: take first five letters of their given name in between the first 5 and
+  //last 5 numbers.
+  const { signInId, auth } = getState();
+  console.log(getState());
+  let firsthalf = signInId.id.split("").splice(0, 5).join("");
+  let secondhalf = signInId.id
+    .split("")
+    .splice(signInId.id.length - 5)
+    .join("");
+  const uniqueName = `${firsthalf}${auth.currentUser
+    .get()
+    .getBasicProfile()
+    .getGivenName()}${secondhalf}`;
+
+  const myFavMovie = await axios.post("http://localhost:3001/movies", {
+    ...movie,
+    uId: uniqueName,
+  });
+  dispatch({ type: "NOM_FILM", payload: myFavMovie.data });
 };
