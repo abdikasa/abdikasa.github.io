@@ -1,5 +1,6 @@
 import axios from "axios";
 import MovieList from "../components/CRUD/MovieList";
+import LocalStorageHelper from "../localStorageHelper";
 
 export const signIn = (id) => {
   return {
@@ -87,20 +88,18 @@ export const saveMovies = (movie) => async (dispatch, getState) => {
     .getBasicProfile()
     .getGivenName()}${secondhalf}`;
 
-  //development: http://localhost:3001/movies
-  //production:
-  const myFavMovie = await axios.post(
-    "https://my-json-server.typicode.com/abdikasa/movieDB/db",
-    {
-      ...movie,
-      uniqueName,
-    }
-  );
-  dispatch({ type: "NOM_FILM", payload: myFavMovie.data });
+  const myFavMovie = {
+    ...movie,
+    uniqueName,
+  };
+
+  LocalStorageHelper.add(myFavMovie);
+
+  dispatch({ type: "NOM_FILM", payload: myFavMovie });
 };
 
 export const deleteMovie = (id) => async (dispatch, getState) => {
   //take the deleted movies id and use it to delete the fil off nominated list
-
+  LocalStorageHelper.removeItem("nominatedMovies", id);
   dispatch({ type: "DELETE_MOVIE", payload: id });
 };
