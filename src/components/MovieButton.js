@@ -12,10 +12,14 @@ class MovieButton extends React.Component {
     }
 
     const localMovies = localStorage.getItem("nominatedMovies");
+
     if (
       JSON.parse(localMovies).find(
         (movie) => movie.Title === this.props.movie.Title
-      )
+      ) &&
+      !Object.values(this.props.reduxMovies).every((movie) => {
+        return movie.Title !== this.props.movie.Title;
+      })
     ) {
       this.setState({ status: "Nominated" });
       this.props.saveMovies(this.props.movie);
@@ -48,4 +52,10 @@ class MovieButton extends React.Component {
   }
 }
 
-export default connect(null, { saveMovies, deleteMovie })(MovieButton);
+const mapStateToProps = (state) => {
+  return { reduxMovies: state.nominatedFilm };
+};
+
+export default connect(mapStateToProps, { saveMovies, deleteMovie })(
+  MovieButton
+);

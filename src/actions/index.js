@@ -87,13 +87,21 @@ export const saveMovies = (movie) => async (dispatch, getState) => {
   const myFavMovie = {
     ...movie,
   };
-  LocalStorageHelper.add(myFavMovie);
+
+  if (
+    LocalStorageHelper.get("nominatedMovies").every(
+      (movie) => movie.Title !== myFavMovie.Title
+    )
+  ) {
+    LocalStorageHelper.add(myFavMovie);
+  }
 
   dispatch({ type: "NOM_FILM", payload: myFavMovie });
 };
 
 export const deleteMovie = (id) => async (dispatch, getState) => {
   //take the deleted movies id and use it to delete the fil off nominated list
+  console.log("id", id);
   LocalStorageHelper.removeItem("nominatedMovies", id);
   dispatch({ type: "DELETE_MOVIE", payload: id });
 };
