@@ -3,7 +3,7 @@ import TypedJs from "../TypedJs";
 import "../../css/MovieList.css";
 import Search from "../Search";
 import { connect } from "react-redux";
-import { searchMovies } from "../../actions";
+import { searchMovies, fetchNominatedMovies } from "../../actions";
 import MovieButton from "../MovieButton";
 
 class MovieList extends Component {
@@ -13,11 +13,12 @@ class MovieList extends Component {
     this.hoverImg = React.createRef();
   }
 
+  state = { term: "" };
+
   componentDidMount() {
     this.timer = null;
+    this.props.fetchNominatedMovies();
   }
-
-  state = { term: "" };
 
   onChangeHandler = (e) => {
     clearTimeout(this.timer);
@@ -31,18 +32,18 @@ class MovieList extends Component {
     }, 400);
   };
 
-  renderMovieHelper = (movie) => {
+  renderMovieHelper = (movie, options = null) => {
     return (
       <div className="ui dimmer ">
         <div className="content">
-          <MovieButton movie={movie}></MovieButton>
+          <MovieButton movie={movie} options={options}></MovieButton>
         </div>
       </div>
     );
   };
 
   renderMovies = () => {
-    const { movies } = this.props;
+    const { movies, nominatedFilms } = this.props;
     const { signInID } = this.props;
     const hideButton =
       signInID === null
@@ -51,13 +52,13 @@ class MovieList extends Component {
           }
         : this.renderMovieHelper;
 
-    console.log(movies);
     if (movies.error) {
       if (movies.error === "Incorrect IMDb ID." && this.state.term === "") {
         return "";
       }
       return movies.error;
     }
+
     return Object.values(movies).map((movie) => {
       return (
         <div
@@ -155,7 +156,13 @@ class MovieList extends Component {
 
 const mapStateToProps = (state) => {
   console.log(state);
-  return { movies: state.queryResults, signInID: state.signInId.id };
+  return {
+    movies: state.queryResults,
+    signInID: state.signInId.id,
+    nominatedFilms: state.nominatedFilm,
+  };
 };
 
-export default connect(mapStateToProps, { searchMovies })(MovieList);
+export default connect(mapStateToProps, { searchMovies, fetchNominatedMovies })(
+  MovieList
+);

@@ -10,11 +10,12 @@ class LocalStorageHelper {
   };
 
   static get = (k) => {
-    localStorage.getItem(k);
+    const selected = JSON.parse(localStorage.getItem(k)) || [];
+    return selected;
   };
 
   static removeItem = (k, id) => {
-    let nominated = Object.values(JSON.parse(localStorage.getItem(k)));
+    let nominated = Object.values(this.get(k));
     nominated = JSON.stringify(
       nominated.filter((movie) => movie.imdbID !== id)
     );

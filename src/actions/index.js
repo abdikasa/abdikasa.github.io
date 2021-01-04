@@ -1,5 +1,4 @@
 import axios from "axios";
-import MovieList from "../components/CRUD/MovieList";
 import LocalStorageHelper from "../localStorageHelper";
 
 export const signIn = (id) => {
@@ -35,10 +34,8 @@ export const fetchStatus = (callback) => async (dispatch, getState) => {
   //when the sign in/out button is pressed.
 
   await dispatch(getGoogleAuth());
-  console.log(getState());
   //2. Get the initial status of the user and show it on the screen.
   const auth = getState().auth;
-  console.log(auth);
   callback(auth.isSignedIn.get());
 
   //3. Update the status of auth and store it int he store'
@@ -65,7 +62,6 @@ export const getGoogleAuth = () => async (dispatch) => {
   });
 
   const auth = window.gapi.auth2.getAuthInstance();
-  console.log(auth);
   dispatch({ type: "FETCH_GAUTH", payload: auth });
 };
 
@@ -90,9 +86,7 @@ export const saveMovies = (movie) => async (dispatch, getState) => {
 
   const myFavMovie = {
     ...movie,
-    uniqueName,
   };
-
   LocalStorageHelper.add(myFavMovie);
 
   dispatch({ type: "NOM_FILM", payload: myFavMovie });
@@ -102,4 +96,12 @@ export const deleteMovie = (id) => async (dispatch, getState) => {
   //take the deleted movies id and use it to delete the fil off nominated list
   LocalStorageHelper.removeItem("nominatedMovies", id);
   dispatch({ type: "DELETE_MOVIE", payload: id });
+};
+
+export const fetchNominatedMovies = () => {
+  //get the movies inside localStorage
+  return {
+    type: "FETCH_ALL",
+    payload: LocalStorageHelper.get("nominatedMovies"),
+  };
 };
