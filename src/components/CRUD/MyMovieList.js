@@ -8,6 +8,18 @@ class MyMovieList extends React.Component {
     this.props.fetchNominatedMoviesRS();
   }
 
+  renderMovies = () => {
+    if (this.props.signInID === null) {
+      return null;
+    }
+    return (
+      <ReusableMovieList
+        movies={this.props.myMovies}
+        signInID={this.props.signInID}
+      ></ReusableMovieList>
+    );
+  };
+
   render() {
     return (
       <div className="ui container">
@@ -16,12 +28,7 @@ class MyMovieList extends React.Component {
             <h3>My Nominated Picks</h3>
           </div>
         </div>
-        <div className="ui centered align grid">
-          <ReusableMovieList
-            movies={this.props.myMovies}
-            signInID={this.props.signInID}
-          ></ReusableMovieList>
-        </div>
+        <div className="ui centered align grid">{this.renderMovies()}</div>
       </div>
     );
   }
