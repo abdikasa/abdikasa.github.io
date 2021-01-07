@@ -20,7 +20,6 @@ class LocalStorageHelper {
       nominated.filter((movie) => movie.imdbID !== id)
     );
     localStorage.setItem(k, nominated);
-    console.log("successfully vaporized off the earth");
   };
 }
 

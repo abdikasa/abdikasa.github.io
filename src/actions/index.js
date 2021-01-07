@@ -21,10 +21,8 @@ export const searchMovies = (q) => async (dispatch) => {
   );
 
   if (response.data.Search) {
-    console.log("we have search results with that query");
     dispatch({ type: "SEARCH_MOVIE", payload: response.data });
   } else {
-    console.log("we dont have search results with that query");
     dispatch({ type: "SEARCH_MOVIE_U", payload: response.data.Error });
   }
 };
@@ -44,7 +42,6 @@ export const fetchStatus = (callback) => async (dispatch, getState) => {
   // 4. attach a listener to whenever the isSignedIn property changes.
   // 5. Update the store and the component.
   auth.isSignedIn.listen(() => {
-    console.log("the listened function was called.");
     callback(auth.isSignedIn.get());
     dispatch({ type: "FETCH_GSTATUS", payload: auth.isSignedIn.get() });
   });
@@ -73,7 +70,6 @@ export const saveMovies = (movie) => async (dispatch, getState) => {
   //their id in the server can be: take first five letters of their given name in between the first 5 and
   //last 5 numbers.
   const { signInId, auth } = getState();
-  console.log(getState());
   let firsthalf = signInId.id.split("").splice(0, 5).join("");
   let secondhalf = signInId.id
     .split("")
@@ -101,7 +97,6 @@ export const saveMovies = (movie) => async (dispatch, getState) => {
 
 export const deleteMovie = (id) => async (dispatch, getState) => {
   //take the deleted movies id and use it to delete the fil off nominated list
-  console.log("id", id);
   LocalStorageHelper.removeItem("nominatedMovies", id);
   dispatch({ type: "DELETE_MOVIE", payload: id });
 };
@@ -120,7 +115,6 @@ export const fetchNominatedMoviesRS = () => async (dispatch, getState) => {
   await dispatch(fetchNominatedMovies());
 
   const nominatedMoviesFromRS = getState().nominatedFilm;
-  console.log(nominatedMoviesFromRS);
 
   return {
     type: "FETCH_ALL_RS",

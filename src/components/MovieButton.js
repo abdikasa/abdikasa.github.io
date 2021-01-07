@@ -5,17 +5,6 @@ import { connect } from "react-redux";
 class MovieButton extends React.Component {
   state = { status: "Nominate" };
 
-  // if (Object.values(this.props.reduxMovies).length === 5) {
-  //   console.log("status", this.state);
-  //   if (this.state.status === "Nominated") {
-  //     console.log(this.props.movie, 1);
-  //     this.setState({ disabled: false });
-  //   } else {
-  //     this.setState({ disabled: true });
-  //     console.log(this.props.movie, 2);
-  //   }
-  // }
-
   componentDidMount() {
     if (!JSON.parse(localStorage.getItem("nominatedMovies"))) {
       return;

@@ -8,7 +8,6 @@ class TypedJs extends React.Component {
     // If you want to pass more options as props, simply add
     // your desired props to this destructuring assignment.
     const { strings } = this.props;
-    console.log(this.props);
     // You can pass other options here, such as typing speed, back speed, etc.
     const options = {
       strings: strings,
