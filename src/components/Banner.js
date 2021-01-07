@@ -8,6 +8,11 @@ class Banner extends React.Component {
     if (this.props.totalNoms.length < 5) {
       return null;
     }
+
+    if (this.props.isSignedIn === null) {
+      return null;
+    }
+
     return (
       <div
         className="ui center aligned grid"
@@ -24,7 +29,10 @@ class Banner extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { totalNoms: Object.values(state.nominatedFilm) };
+  return {
+    totalNoms: Object.values(state.nominatedFilm),
+    isSignedIn: state.signInId.id,
+  };
 };
 
 export default connect(mapStateToProps)(Banner);
