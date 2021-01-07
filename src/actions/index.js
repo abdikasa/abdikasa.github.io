@@ -113,3 +113,17 @@ export const fetchNominatedMovies = () => {
     payload: LocalStorageHelper.get("nominatedMovies"),
   };
 };
+
+export const fetchNominatedMoviesRS = () => async (dispatch, getState) => {
+  //get the movies inside localStorage
+
+  await dispatch(fetchNominatedMovies());
+
+  const nominatedMoviesFromRS = getState().nominatedFilm;
+  console.log(nominatedMoviesFromRS);
+
+  return {
+    type: "FETCH_ALL_RS",
+    payload: nominatedMoviesFromRS,
+  };
+};

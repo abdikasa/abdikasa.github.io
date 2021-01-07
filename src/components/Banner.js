@@ -9,7 +9,10 @@ class Banner extends React.Component {
       return null;
     }
     return (
-      <div className="ui center aligned grid" style={marginTop}>
+      <div
+        className="ui center aligned grid"
+        style={{ position: "sticky", top: "0", zIndex: "1000" }}
+      >
         <div
           className="ui column banner test ad"
           data-text="You have reached the maximum number of nominations (5)."

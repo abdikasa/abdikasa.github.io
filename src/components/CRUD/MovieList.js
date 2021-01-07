@@ -4,7 +4,7 @@ import "../../css/MovieList.css";
 import Search from "../Search";
 import { connect } from "react-redux";
 import { searchMovies, fetchNominatedMovies } from "../../actions";
-import MovieButton from "../MovieButton";
+import ReusableMovieList from "../ReusableMovieList";
 
 class MovieList extends Component {
   constructor(props) {
@@ -30,74 +30,6 @@ class MovieList extends Component {
       }
       this.props.searchMovies(e.target.value);
     }, 400);
-  };
-
-  renderMovieHelper = (movie, options = null) => {
-    return (
-      <div className="ui dimmer ">
-        <div className="content">
-          <MovieButton movie={movie} options={options}></MovieButton>
-        </div>
-      </div>
-    );
-  };
-
-  renderMovies = () => {
-    const { movies, nominatedFilms } = this.props;
-    const { signInID } = this.props;
-    const hideButton =
-      signInID === null
-        ? (data) => {
-            return "";
-          }
-        : this.renderMovieHelper;
-
-    if (movies.error) {
-      if (movies.error === "Incorrect IMDb ID." && this.state.term === "") {
-        return "";
-      }
-      return movies.error;
-    }
-
-    return Object.values(movies).map((movie) => {
-      return (
-        <div
-          className="eight wide mobile four wide tablet three wide computer column stretched"
-          key={movie.imdbID}
-        >
-          <div className="ui special cards">
-            <div className="eq-card ui card fluid">
-              <div
-                className="blurring dimmable image"
-                ref={() => {
-                  window.$(".special.cards .image").dimmer({
-                    on: "hover",
-                  });
-                }}
-              >
-                {movie.Poster !== "N/A" ? (
-                  <img src={movie.Poster} className="poster-img"></img>
-                ) : (
-                  <img
-                    src="https://placehold.it/300x200"
-                    srcSet="https://placehold.it/300x200 300w"
-                    sizes="100vw"
-                    alt="Placeholder"
-                  />
-                )}
-                {hideButton(movie)}
-              </div>
-              <div className="content">
-                <a className="header">{movie.Title}</a>
-                <div className="meta">
-                  <span className="date">Created in {movie.Year}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    });
   };
 
   renderResultsFound = () => {
@@ -144,7 +76,14 @@ class MovieList extends Component {
             <span>{this.renderResultsFound()}</span>
           </div>
         </div>
-        <div className="ui centered align grid">{this.renderMovies()}</div>
+        <div className="ui centered align grid">
+          {
+            <ReusableMovieList
+              movies={this.props.movies}
+              signInID={this.props.signInID}
+            ></ReusableMovieList>
+          }
+        </div>
       </div>
     );
   };
