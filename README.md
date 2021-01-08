@@ -26,8 +26,7 @@ We'd like a simple to use interface that makes it easy to:
 There is a lot to be improved on here, you can polish the required features by crafting a nicer design, or improve the app by adding new features! Choose something that you feel best showcases your passion and skills.
 
 If you need inspiration, here are examples of what you can work on. If you work on these ideas, we recommend choosing only one or two.
-
 *   Save nomination lists if the user leaves the page
-*	  Animations for loading, adding/deleting movies, notifications
-*	  Create shareable links
+*   Animations for loading, adding/deleting movies, notifications
+*   Shareable Links.
 
