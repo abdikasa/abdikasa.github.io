@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Router } from "react-router-dom";
-import MovieList from "./CRUD/MovieList";
+import MovieList from "./pages/MovieList";
 import history from "../history";
 import Header from "./Header";
-import MyMovieList from "./CRUD/MyMovieList";
+import MyMovieList from "./pages/MyMovieList";
 
 /**
  * In hindsight upon completing the project, I didn't need to pass the history object manually.

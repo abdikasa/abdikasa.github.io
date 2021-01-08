@@ -12,6 +12,9 @@ const Header = () => {
           Shoppies
         </Link>
         <div className="right menu">
+          <Link to="/movies/show" className="item" style={{ fontSize: "1rem" }}>
+            My Movies
+          </Link>
           <GoogleAuth></GoogleAuth>
         </div>
       </div>

@@ -72,3 +72,24 @@ margin-bottom: 1rem;
         font-size:150%;
     }
   }
+
+  @media screen and (max-width: 482px) {
+    .right.menu {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ui.secondary.menu {
+        margin-bottom: 2.5rem;
+        margin-top:2rem;
+    }
+
+    .ui.secondary.menu * {
+        line-height: 1rem !important;
+    }
+
+    .banner {
+        margin-bottom: 2rem !important;
+    }
+    
+    }

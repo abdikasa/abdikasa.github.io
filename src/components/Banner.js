@@ -17,7 +17,7 @@ class Banner extends React.Component {
 
     return (
       <div
-        className="ui center aligned grid"
+        className="ui center aligned grid banner"
         style={{ position: "sticky", top: "0", zIndex: "1000" }}
       >
         <div
