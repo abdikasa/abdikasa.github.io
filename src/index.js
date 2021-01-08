@@ -7,6 +7,9 @@ import App from "./components/App";
 import reducers from "./reducers";
 import thunk from "redux-thunk";
 
+/**
+ * Copied this code from the redux tools github page to monitor changes in the redux store.
+ */
 const composeEnhancers =
   (typeof window !== "undefined" &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||

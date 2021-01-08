@@ -1,7 +1,7 @@
 import Typed from "typed.js";
 import React from "react";
 
-//taken from https://jsfiddle.net/mattboldt/ovat9jmp/
+//taken and modified from https://jsfiddle.net/mattboldt/ovat9jmp/
 
 class TypedJs extends React.Component {
   componentDidMount() {

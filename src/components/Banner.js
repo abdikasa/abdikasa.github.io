@@ -1,10 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 
+/**
+ * Banner can be more reusable with props, but for the sake of this project, it does the job.
+ * Checks if user has already submitted 5 movie nominations and displays a message if so.
+ */
 class Banner extends React.Component {
   render() {
-    let marginTop = { marginTop: "2rem" };
-
     if (this.props.totalNoms.length < 5) {
       return null;
     }

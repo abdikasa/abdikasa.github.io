@@ -6,6 +6,11 @@ export default (state = {}, action) => {
       delete state[action.payload];
       return { ...state };
     case "FETCH_ALL":
+      /**
+       * State will be some object like {name: 'Billy', age: 10, id: 127}
+       * We want to store this data with the key as the id,
+       * {127: {name: 'Billy', age: 10, id: 127}, 128: Amanda: {...etc}}
+       */
       const nested = {};
       action.payload.forEach((movie) => {
         nested[movie.imdbID] = movie;

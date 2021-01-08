@@ -1,3 +1,7 @@
+/**
+ * Made a class to handle Local Storage functions/queries.
+ */
+
 class LocalStorageHelper {
   static add = (v) => {
     let a = [];

@@ -1,8 +1,15 @@
 import React from "react";
 import MovieButton from "./MovieButton";
 
+/**
+ * I finally found an opportunity to actually create a reusable component.
+ * I fist created MovieList and noticed when i was creating the component --
+ * MyMovieList, the rendering of the movies would be the same. So i created --
+ * this component to handle that.
+ */
+
 class ReusableMovieList extends React.Component {
-  renderMovieHelper = (movie, options = null) => {
+  renderMovieButton = (movie, options = null) => {
     return (
       <div className="ui dimmer ">
         <div className="content">
@@ -13,16 +20,29 @@ class ReusableMovieList extends React.Component {
   };
 
   renderMovies = () => {
+    /**
+     * We take the props that are passed in.
+     */
     const { movies } = this.props;
     const { signInID } = this.props;
 
+    /**
+     * This is a workaround honestly, since my success call would return a function reference,
+     * I also needed to create a dummy function for a failure case.
+     * i kept getting re-render issues, and this bypasses that.
+     */
     const hideButton =
       signInID === null
         ? (data) => {
             return "";
           }
-        : this.renderMovieHelper;
+        : this.renderMovieButton;
 
+    /**
+     * Semantic UI uses jQuery, I'm using REACt, so I can't use DOM.queryS.
+     * I used a workaround and used Refs, not to get the element, but to have access
+     * to the window object, otherwise I would get jquery is undefined or other errors.
+     * */
     return Object.values(movies).map((movie) => {
       return (
         <div

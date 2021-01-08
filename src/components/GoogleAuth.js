@@ -3,14 +3,29 @@ import "../css/GoogleAuth.css";
 import { connect } from "react-redux";
 import { fetchStatus, signIn, signOut } from "../actions";
 
+/**
+ * This applicaton requires user to have a gmail account. Sorry not sorry.
+ * The account will be used to store the nominated movies.
+ * When user signs out, the searched movies will not have action buttons.
+ */
+
 class GoogleAuth extends React.Component {
+  /**
+   * When component mounts, call the action creator and get the user's google auth2 object.
+   * The callback is used because Google gives us a convenient 'listen' method on
+   * when user signs in and out.
+   */
   componentDidMount() {
     this.props.fetchStatus(this.onAuthChange);
   }
 
   onAuthChange = (isSignedIn) => {
+    /**
+     * The listen function will detect when a change occurs, and when such change occurs,
+     * we want to check if user is signed in already (get the id associated with the user),
+     * else, sign out.
+     */
     if (isSignedIn) {
-      //later: get user id if signed in already.
       this.props.signIn(this.props.current.currentUser.get().getId());
     } else {
       this.props.signOut();
@@ -18,14 +33,23 @@ class GoogleAuth extends React.Component {
   };
 
   signUserIn = () => {
+    /**
+     * Current is the gapi auth2 object, we call its SI/SO functions.
+     */
     this.props.current.signIn();
   };
 
   signUserOut = () => {
+    /**
+     * Current is the gapi auth2 object, we call its SI/SO functions.
+     */
     this.props.current.signOut();
   };
 
   renderAuthButtons = () => {
+    /**
+     * If user is signed in, create a sign out button.
+     */
     if (this.props.isSignedIn === true) {
       return (
         <button
@@ -35,6 +59,9 @@ class GoogleAuth extends React.Component {
           Sign Out
         </button>
       );
+      /**
+       * If user is signed out, create a sign in button.
+       */
     } else if (this.props.isSignedIn === false) {
       return (
         <button
@@ -45,6 +72,7 @@ class GoogleAuth extends React.Component {
         </button>
       );
     }
+    //when component is first rendered, return null to avoid issues.
     return null;
   };
 

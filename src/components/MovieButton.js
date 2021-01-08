@@ -3,9 +3,17 @@ import { saveMovies, deleteMovie } from "../actions";
 import { connect } from "react-redux";
 
 class MovieButton extends React.Component {
+  /**
+   * I opted to use class level state instead of redux.
+   * It will keep track of whether a button has been pressed or not.
+   */
   state = { status: "Nominate" };
 
   componentDidMount() {
+    /**
+     * When component gets rendered, check if localStorage has a clue about --
+     * the nominated movies.
+     */
     if (!JSON.parse(localStorage.getItem("nominatedMovies"))) {
       return;
     }
@@ -20,6 +28,10 @@ class MovieButton extends React.Component {
       (movie) => movie.Title !== this.props.movie.Title
     );
 
+    /**
+     * This code is used to update the redux store with the movies stored in the user's browser.
+     * If true, update the movie's button to Nominated (green) and update the store.
+     */
     if (isFound && isFoundInRS) {
       this.setState({ status: "Nominated" });
       this.props.saveMovies(this.props.movie);
@@ -27,6 +39,11 @@ class MovieButton extends React.Component {
   }
 
   onClickHandler = () => {
+    /**
+     * Simple onClick handler.
+     * If the button has the text nominated and is clicked, change back to Nominate.
+     * else, change to nominated and update ths store in both cases.
+     */
     if (this.state.status === "Nominated") {
       this.setState({ status: "Nominate" });
       this.props.deleteMovie(this.props.movie.imdbID);
@@ -37,6 +54,12 @@ class MovieButton extends React.Component {
   };
 
   render() {
+    /**
+     * The toggle button didn't work for me on Semantic UI, so I used a work-around.
+     * If status is nominated, change to green, else, use grey.
+     * I tried using disabled as a state, but got re-render infinite issues, so I used a --
+     * work-around; created a class with specific rules to mimic the desired effect.
+     */
     let nominatedColor = this.state.status === "Nominated" ? "positive" : "";
     let disabledClass = {};
     if (

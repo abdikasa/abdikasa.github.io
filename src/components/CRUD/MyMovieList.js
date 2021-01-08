@@ -5,12 +5,21 @@ import ReusableMovieList from "../ReusableMovieList";
 
 class MyMovieList extends React.Component {
   componentDidMount() {
+    /**
+     * Routes are independant of each other, so i need to dispatch the action creator below.
+     * This action creator gets the movies stored inside the redux store, hence 'RS'.
+     */
     this.props.fetchNominatedMoviesRS();
   }
 
   renderMovies = () => {
+    /**
+     * Check if the user is currently signed in,
+     * if yes, show the movies (if any).
+     * if no, show a helpful message.
+     */
     if (this.props.signInID === null) {
-      return null;
+      return <h4>Please sign in to see your nominated movies.</h4>;
     }
     return (
       <ReusableMovieList

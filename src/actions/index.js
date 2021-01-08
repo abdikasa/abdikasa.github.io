@@ -15,6 +15,11 @@ export const signOut = () => {
 };
 
 export const searchMovies = (q) => async (dispatch) => {
+  /**
+   * when a movie or a word is typed in, we want to run this action creator.
+   * We return a lower case version of the query, pass it to the API
+   * if there is a Search property, the movie exists, else it's an error.
+   */
   q = q.toLowerCase().trim();
   const response = await axios.get(
     `https://www.omdbapi.com/?apikey=b3c713a5&s=${q}&type=movie`
@@ -36,11 +41,11 @@ export const fetchStatus = (callback) => async (dispatch, getState) => {
   const auth = getState().auth;
   callback(auth.isSignedIn.get());
 
-  //3. Update the status of auth and store it int he store'
+  //3. Update the status of auth and store it in the store.
   dispatch({ type: "FETCH_GSTATUS", payload: auth.isSignedIn.get() });
 
   // 4. attach a listener to whenever the isSignedIn property changes.
-  // 5. Update the store and the component.
+  // 5. Update the store and by doing so, the component too.
   auth.isSignedIn.listen(() => {
     callback(auth.isSignedIn.get());
     dispatch({ type: "FETCH_GSTATUS", payload: auth.isSignedIn.get() });
@@ -48,10 +53,20 @@ export const fetchStatus = (callback) => async (dispatch, getState) => {
 };
 
 export const getGoogleAuth = () => async (dispatch) => {
+  /**
+   * The load function takes a callback, which we can use async/await or extends with .then.
+   * So i used a dummy resolve and awaited the promise to completion.
+   */
   await new Promise((resolve, reject) => {
     window.gapi.load("client:auth2", resolve);
   });
 
+  /**
+   * when the load function is completed, we now have access to the client.init function.
+   * This function helps us initialize and authorize the application's use of their API.
+   * The scope refers to what data we wish to use.
+   * Upon completing this project, I now realize I only needed the 'email' scope.
+   */
   await window.gapi.client.init({
     clientId:
       "966761145318-lchet6c8rli1o5jk7k82nrug9fpqe8og.apps.googleusercontent.com",
@@ -69,6 +84,13 @@ export const saveMovies = (movie) => async (dispatch, getState) => {
   //auth2.currentUser.get().getBasicProfile() for the names of the user.
   //their id in the server can be: take first five letters of their given name in between the first 5 and
   //last 5 numbers.
+
+  /**
+   * In the end, I really didn't end up using the below information partaining ti the user's name and id.
+   * Initially upon writing this action creator, I was gonna create a unique user name for each user.
+   * This username would have the movies linked to it, but I scrapped the idea later on.
+   */
+
   const { signInId, auth } = getState();
   let firsthalf = signInId.id.split("").splice(0, 5).join("");
   let secondhalf = signInId.id
@@ -84,6 +106,9 @@ export const saveMovies = (movie) => async (dispatch, getState) => {
     ...movie,
   };
 
+  /**
+   * This code snippet below is used to prevent duplicates being stored in the user's browser.
+   */
   if (
     LocalStorageHelper.get("nominatedMovies").every(
       (movie) => movie.Title !== myFavMovie.Title
@@ -110,8 +135,6 @@ export const fetchNominatedMovies = () => {
 };
 
 export const fetchNominatedMoviesRS = () => async (dispatch, getState) => {
-  //get the movies inside localStorage
-
   await dispatch(fetchNominatedMovies());
 
   const nominatedMoviesFromRS = getState().nominatedFilm;

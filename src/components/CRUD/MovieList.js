@@ -9,8 +9,6 @@ import ReusableMovieList from "../ReusableMovieList";
 class MovieList extends Component {
   constructor(props) {
     super(props);
-    this.label = React.createRef();
-    this.hoverImg = React.createRef();
   }
 
   state = { term: "" };
@@ -20,6 +18,11 @@ class MovieList extends Component {
     this.props.fetchNominatedMovies();
   }
 
+  /**
+   * My attempt on debouncing or throttling the search speed.
+   * when a key is pressed, get rid of the timeout and create a new one.
+   * If this function is called within 400, create another timeout and wait for further response.
+   */
   onChangeHandler = (e) => {
     clearTimeout(this.timer);
     this.setState({ term: e.target.value });
@@ -32,6 +35,11 @@ class MovieList extends Component {
     }, 400);
   };
 
+  /**
+   * For most movie searches, this will return 10 movies.
+   * The first if clause is written to return an error to the screen.
+   * Otherwise it will take the count of movies returned.
+   */
   renderResultsFound = () => {
     const { movies } = this.props;
     const moviesArr = Object.values(movies);
@@ -43,6 +51,10 @@ class MovieList extends Component {
   };
 
   renderContent = () => {
+    /**
+     * On search, hide the typed container class, which will puch the search bar to the top
+     * of the screen since by hiding the container class, we will also be removing the margin.
+     */
     const labelClass = this.state.term.trim().length === 0 ? "show" : "hide";
 
     return (
@@ -57,7 +69,7 @@ class MovieList extends Component {
           </div>
 
           <div className={`ten wide column search-container ${labelClass}`}>
-            <h1 ref={this.label}>Search</h1>
+            <h1>Search</h1>
             <div className="ui large transparent fluid input">
               <Search
                 cname="ui center aligned"
