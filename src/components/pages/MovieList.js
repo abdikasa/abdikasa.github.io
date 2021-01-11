@@ -18,6 +18,11 @@ class MovieList extends Component {
     this.props.fetchNominatedMovies();
   }
 
+  componentWillUnmount() {
+    this.setState({ term: "" });
+    this.props.searchMovies("");
+  }
+
   /**
    * My attempt on debouncing or throttling the search speed.
    * when a key is pressed, get rid of the timeout and create a new one.
@@ -48,6 +53,18 @@ class MovieList extends Component {
     }
     if (this.state.term.trim() === "") return null;
     return moviesArr.length + " results found!";
+  };
+
+  renderMoviesHelper = () => {
+    if (this.state.term === "") {
+      return null;
+    }
+    return (
+      <ReusableMovieList
+        movies={this.props.movies}
+        signInID={this.props.signInID}
+      ></ReusableMovieList>
+    );
   };
 
   renderContent = () => {
@@ -89,12 +106,7 @@ class MovieList extends Component {
           </div>
         </div>
         <div className="ui centered align grid">
-          {
-            <ReusableMovieList
-              movies={this.props.movies}
-              signInID={this.props.signInID}
-            ></ReusableMovieList>
-          }
+          {this.renderMoviesHelper()}
         </div>
       </div>
     );
