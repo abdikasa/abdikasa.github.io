@@ -85,22 +85,7 @@ export const saveMovies = (movie) => async (dispatch, getState) => {
   //their id in the server can be: take first five letters of their given name in between the first 5 and
   //last 5 numbers.
 
-  /**
-   * In the end, I really didn't end up using the below information partaining ti the user's name and id.
-   * Initially upon writing this action creator, I was gonna create a unique user name for each user.
-   * This username would have the movies linked to it, but I scrapped the idea later on.
-   */
-
   const { signInId, auth } = getState();
-  let firsthalf = signInId.id.split("").splice(0, 5).join("");
-  let secondhalf = signInId.id
-    .split("")
-    .splice(signInId.id.length - 5)
-    .join("");
-  const uniqueName = `${firsthalf}${auth.currentUser
-    .get()
-    .getBasicProfile()
-    .getGivenName()}${secondhalf}`;
 
   const myFavMovie = {
     ...movie,

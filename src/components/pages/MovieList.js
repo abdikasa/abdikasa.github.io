@@ -48,7 +48,11 @@ class MovieList extends Component {
   renderResultsFound = () => {
     const { movies } = this.props;
     const moviesArr = Object.values(movies);
-    if (moviesArr.length === 1 && this.state.term.trim() !== "") {
+    if (
+      moviesArr.length === 1 &&
+      this.state.term.trim() !== "" &&
+      moviesArr[0].Title === undefined
+    ) {
       return moviesArr[0];
     }
     if (this.state.term.trim() === "") return null;
@@ -59,10 +63,14 @@ class MovieList extends Component {
     if (this.state.term === "") {
       return null;
     }
-    if (
-      Object.values(this.props.movies).length === 1 &&
-      this.state.term.trim() !== ""
-    ) {
+
+    console.log(this.props.movies);
+    if (!this.renderResultsFound().includes("results")) {
+      console.log("does not include results found");
+      return null;
+    }
+
+    if (this.props.movies.error) {
       return null;
     }
 
