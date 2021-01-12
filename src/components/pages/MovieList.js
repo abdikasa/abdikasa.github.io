@@ -59,6 +59,13 @@ class MovieList extends Component {
     if (this.state.term === "") {
       return null;
     }
+    if (
+      Object.values(this.props.movies).length === 1 &&
+      this.state.term.trim() !== ""
+    ) {
+      return null;
+    }
+
     return (
       <ReusableMovieList
         movies={this.props.movies}
