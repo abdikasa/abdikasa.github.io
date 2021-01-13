@@ -89,6 +89,7 @@ export const saveMovies = (movie) => async (dispatch, getState) => {
 
   const myFavMovie = {
     ...movie,
+    id: signInId.id,
   };
 
   /**

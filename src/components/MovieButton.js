@@ -23,18 +23,11 @@ class MovieButton extends React.Component {
       (movie) => movie.Title === this.props.movie.Title
     );
 
-    //RS = redux store
-    const isFoundInRS = !Object.values(this.props.reduxMovies).every(
-      (movie) => movie.Title !== this.props.movie.Title
-    );
-
     /**
      * This code is used to update the redux store with the movies stored in the user's browser.
-     * If true, update the movie's button to Nominated (green) and update the store.
      */
-    if (isFound && isFoundInRS) {
+    if (isFound) {
       this.setState({ status: "Nominated" });
-      this.props.saveMovies(this.props.movie);
     }
   }
 
