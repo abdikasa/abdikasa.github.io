@@ -64,9 +64,7 @@ class MovieList extends Component {
       return null;
     }
 
-    console.log(this.props.movies);
     if (!this.renderResultsFound().includes("results")) {
-      console.log("does not include results found");
       return null;
     }
 

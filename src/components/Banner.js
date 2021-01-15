@@ -14,7 +14,6 @@ class Banner extends React.Component {
       return acc;
     }, 0);
 
-    console.log("nom", nomMovies);
     if (nomMovies < 5) {
       return null;
     }
