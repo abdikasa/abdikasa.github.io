@@ -19,9 +19,12 @@ class MovieButton extends React.Component {
     }
 
     const localMovies = localStorage.getItem("nominatedMovies");
-    const isFound = JSON.parse(localMovies).find(
-      (movie) => movie.Title === this.props.movie.Title
-    );
+    const isFound = JSON.parse(localMovies).find((movie) => {
+      return (
+        movie.Title === this.props.movie.Title &&
+        movie.id === this.props.signInId
+      );
+    });
 
     /**
      * This code is used to update the redux store with the movies stored in the user's browser.
@@ -55,10 +58,18 @@ class MovieButton extends React.Component {
      */
     let nominatedColor = this.state.status === "Nominated" ? "positive" : "";
     let disabledClass = {};
-    if (
-      this.state.status === "Nominate" &&
-      Object.values(this.props.reduxMovies).length === 5
-    ) {
+
+    const nomMovies = Object.values(this.props.reduxMovies).reduce(
+      (acc, curr) => {
+        if (curr.id === this.props.signInId) {
+          acc += 1;
+        }
+        return acc;
+      },
+      0
+    );
+
+    if (this.state.status === "Nominate" && nomMovies === 5) {
       disabledClass = { pointerEvents: "none", opacity: "0.4" };
     }
 
@@ -77,7 +88,7 @@ class MovieButton extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { reduxMovies: state.nominatedFilm };
+  return { reduxMovies: state.nominatedFilm, signInId: state.signInId.id };
 };
 
 export default connect(mapStateToProps, { saveMovies, deleteMovie })(

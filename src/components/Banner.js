@@ -7,7 +7,15 @@ import { connect } from "react-redux";
  */
 class Banner extends React.Component {
   render() {
-    if (this.props.totalNoms.length < 5) {
+    const nomMovies = this.props.totalNoms.reduce((acc, curr) => {
+      if (curr.id === this.props.isSignedIn) {
+        acc += 1;
+      }
+      return acc;
+    }, 0);
+
+    console.log("nom", nomMovies);
+    if (nomMovies < 5) {
       return null;
     }
 

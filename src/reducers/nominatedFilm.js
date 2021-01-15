@@ -5,6 +5,7 @@ export default (state = {}, action) => {
       return { ...state, [action.payload.imdbID]: action.payload };
     case "DELETE_MOVIE":
       console.log("DELETE MOVIE is called");
+
       delete state[action.payload];
       return { ...state };
     case "FETCH_ALL":
@@ -18,6 +19,7 @@ export default (state = {}, action) => {
       action.payload.forEach((movie) => {
         nested[movie.imdbID] = movie;
       });
+      console.log({ ...state, ...nested });
       return { ...state, ...nested };
     default:
       return state;

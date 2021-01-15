@@ -21,9 +21,14 @@ class MyMovieList extends React.Component {
     if (this.props.signInID === null) {
       return <h4>Please sign in to see your nominated movies.</h4>;
     }
+
+    const nomMovies = Object.values(this.props.myMovies).filter((movie) => {
+      return movie.id === this.props.signInID;
+    });
+
     return (
       <ReusableMovieList
-        movies={this.props.myMovies}
+        movies={nomMovies}
         signInID={this.props.signInID}
       ></ReusableMovieList>
     );

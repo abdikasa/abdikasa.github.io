@@ -14,7 +14,7 @@ export const signOut = () => {
   };
 };
 
-export const searchMovies = (q) => async (dispatch) => {
+export const searchMovies = (q) => async (dispatch, getState) => {
   /**
    * when a movie or a word is typed in, we want to run this action creator.
    * We return a lower case version of the query, pass it to the API
@@ -25,8 +25,10 @@ export const searchMovies = (q) => async (dispatch) => {
     `https://www.omdbapi.com/?apikey=b3c713a5&s=${q}&type=movie`
   );
 
+  const id = getState().isSignedIn.id;
+
   if (response.data.Search) {
-    dispatch({ type: "SEARCH_MOVIE", payload: response.data });
+    dispatch({ type: "SEARCH_MOVIE", payload: { movies: response.data, id } });
   } else {
     dispatch({ type: "SEARCH_MOVIE_U", payload: response.data.Error });
   }
